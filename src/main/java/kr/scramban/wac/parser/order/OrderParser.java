@@ -4,5 +4,5 @@ import kr.scramban.wac.domain.GameContext;
 
 public interface OrderParser {
 
-    void parse(GameContext context, String... args);
+    String parse(GameContext context, String[][] args);
 }
