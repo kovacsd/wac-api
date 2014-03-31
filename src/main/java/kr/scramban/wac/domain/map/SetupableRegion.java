@@ -29,6 +29,11 @@ public class SetupableRegion implements Region {
     }
 
     @Override
+    public void addArmy(final long reinforcement) {
+        army += reinforcement;
+    }
+
+    @Override
     public int getId() {
         return id;
     }

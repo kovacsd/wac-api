@@ -40,7 +40,27 @@ public class World {
     public List<Region> getMyRegions() {
         List<Region> myRegions = new ArrayList<Region>();
         for (Region region : regions.values()) {
-            if (region.getOwner().isMe()) {
+            if (region.getOwner() != null && region.getOwner().isMe()) {
+                myRegions.add(region);
+            }
+        }
+        return myRegions;
+    }
+
+    public List<Region> getMyBorderRegions() {
+        List<Region> myRegions = new ArrayList<Region>();
+        for (Region region : regions.values()) {
+            if (region.getOwner() != null && region.getOwner().isMe() && !region.isHinterland()) {
+                myRegions.add(region);
+            }
+        }
+        return myRegions;
+    }
+
+    public List<Region> getMyHinterlandRegions() {
+        List<Region> myRegions = new ArrayList<Region>();
+        for (Region region : regions.values()) {
+            if (region.getOwner() != null && region.getOwner().isMe() && region.isHinterland()) {
                 myRegions.add(region);
             }
         }

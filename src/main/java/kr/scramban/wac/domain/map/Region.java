@@ -14,5 +14,7 @@ public interface Region {
 
     long getArmy();
 
+    void addArmy(long reinforcement);
+
     boolean isHinterland();
 }

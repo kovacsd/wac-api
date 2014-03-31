@@ -11,7 +11,8 @@ public enum InputOrder {
     PICK_STARTING_REGIONS(0, "pick_starting_regions"),
     UPDATE_MAP(3, "update_map"),
     GO_PLACE_ARMIES(0, "go", "place_armies"),
-    GO_ATTACK_TRANSFER(0, "go", "attack/transfer");
+    GO_ATTACK_TRANSFER(0, "go", "attack/transfer"),
+    OPPONENT_MOVES(0, "opponent_moves");
 
     private final String[] orderKeys;
     private final int offset;
@@ -36,7 +37,7 @@ public enum InputOrder {
         } else {
             result = new String[1][];
             result[0] = new String[param.length - offset];
-            for (int i = offset; i < result[0].length; i++) {
+            for (int i = 0; i < result[0].length; i++) {
                 result[0][i] = param[offset + i];
             }
         }
@@ -45,7 +46,7 @@ public enum InputOrder {
 
     private boolean verifyOrder(final String... orderKeys) {
         for (int i = 0; i < orderKeys.length && i < this.orderKeys.length; i++) {
-            if (orderKeys[i] != this.orderKeys[i]) {
+            if (!orderKeys[i].equals(this.orderKeys[i])) {
                 return false;
             }
         }
@@ -64,8 +65,10 @@ public enum InputOrder {
     private static String arrayPrint(final String[] array) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
-            result.append(array[i]);
-            result.append("\n");
+            if (result.length() > 0) {
+                result.append("\n");
+            }
+            result.append("'" + array[i] + "'");
         }
         return result.toString();
     }
