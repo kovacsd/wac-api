@@ -11,12 +11,11 @@ public class Starter {
         ConsolParser parser = new ConsolParser();
         while (scan.hasNextLine()) {
             String line = scan.nextLine().trim();
-            if (line.length() == 0) {
-                continue;
-            }
-            String response = parser.parseLine(line);
-            if (response != null) {
-                System.out.println(response);
+            if (line.length() > 0) {
+                String response = parser.parseLine(line);
+                if (response != null) {
+                    System.out.println(response);
+                }
             }
         }
     }

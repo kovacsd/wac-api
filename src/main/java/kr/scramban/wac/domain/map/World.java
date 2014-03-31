@@ -1,7 +1,11 @@
 package kr.scramban.wac.domain.map;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import kr.scramban.wac.domain.player.Player;
 
 public class World {
 
@@ -25,5 +29,21 @@ public class World {
             region.addNeighbor(neighbor);
             neighbor.addNeighbor(region);
         }
+    }
+
+    public void setRegion(final int regionId, final Player owner, final long army) {
+        SetupableRegion region = regions.get(regionId);
+        region.setOwner(owner);
+        region.setArmy(army);
+    }
+
+    public List<Region> getMyRegions() {
+        List<Region> myRegions = new ArrayList<Region>();
+        for (Region region : regions.values()) {
+            if (region.getOwner().isMe()) {
+                myRegions.add(region);
+            }
+        }
+        return myRegions;
     }
 }

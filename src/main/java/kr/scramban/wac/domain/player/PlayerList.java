@@ -6,6 +6,7 @@ import java.util.Map;
 public class PlayerList {
 
     private final Map<String, Player> players = new HashMap<String, Player>();
+    private String myName;
 
     {
         players.put(Player.NEUTRAL_NAME, Player.NATURAL);
@@ -16,6 +17,7 @@ public class PlayerList {
     }
 
     public void addMe(final String name) {
+        myName = name;
         addPlayer(name, true);
     }
 
@@ -25,5 +27,9 @@ public class PlayerList {
 
     public Player getPlayer(final String name) {
         return players.get(name);
+    }
+
+    public String getMyName() {
+        return myName;
     }
 }

@@ -28,19 +28,36 @@ public class SetupableRegion implements Region {
         this.army = army;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public List<Region> getNeighbor() {
         return neighbor;
     }
 
+    @Override
     public Player getOwner() {
         return owner;
     }
 
+    @Override
     public long getArmy() {
         return army;
+    }
+
+    @Override
+    public boolean isHinterland() {
+        if (!owner.isMe()) {
+            return false;
+        }
+        for (Region region : neighbor) {
+            if (!region.getOwner().isMe()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

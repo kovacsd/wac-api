@@ -13,4 +13,6 @@ public interface Region {
     Player getOwner();
 
     long getArmy();
+
+    boolean isHinterland();
 }

@@ -9,7 +9,9 @@ public enum InputOrder {
     SETUP_MAP_REGIONS(2, "setup_map", "regions"),
     SETUP_MAP_NEIGHBORS(2, "setup_map", "neighbors"),
     PICK_STARTING_REGIONS(0, "pick_starting_regions"),
-    UPDATE_MAP(3, "update_map");
+    UPDATE_MAP(3, "update_map"),
+    GO_PLACE_ARMIES(0, "go", "place_armies"),
+    GO_ATTACK_TRANSFER(0, "go", "attack/transfer");
 
     private final String[] orderKeys;
     private final int offset;
@@ -56,6 +58,15 @@ public enum InputOrder {
                 return order;
             }
         }
-        throw new IllegalArgumentException("No order like this!\n" + orderKeys);
+        throw new IllegalArgumentException("No order like this!\n" + arrayPrint(orderKeys));
+    }
+
+    private static String arrayPrint(final String[] array) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            result.append(array[i]);
+            result.append("\n");
+        }
+        return result.toString();
     }
 }
