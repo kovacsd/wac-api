@@ -72,20 +72,22 @@ public class SetupableRegion implements Region {
     }
 
     @Override
-    public int getHinterlandCount() {
+    public Integer getHinterlandCount() {
         return getHinterlandCount(new ArrayList<SetupableRegion>());
     }
 
-    int getHinterlandCount(final List<SetupableRegion> list) {
+    Integer getHinterlandCount(final List<SetupableRegion> list) {
         if (!isHinterland()) {
             return 0;
         }
-        int neighborHinterlandCount = Integer.MAX_VALUE;
+        Integer neighborHinterlandCount = null;
         list.add(this);
         for (SetupableRegion neighbor : neighbors) {
-            if (!list.contains(neighbor) && list.size() > 5) {
-                int hinterlandCount = neighbor.getHinterlandCount(new ArrayList<SetupableRegion>(list));
-                if (hinterlandCount < neighborHinterlandCount) {
+            if (!list.contains(neighbor) && list.size() < 6) {
+                ArrayList<SetupableRegion> listCopy = new ArrayList<SetupableRegion>();
+                listCopy.addAll(list);
+                Integer hinterlandCount = neighbor.getHinterlandCount(listCopy);
+                if (hinterlandCount != null && (neighborHinterlandCount == null || hinterlandCount < neighborHinterlandCount)) {
                     neighborHinterlandCount = hinterlandCount;
                     if (neighborHinterlandCount == 0) {
                         break;
@@ -93,7 +95,7 @@ public class SetupableRegion implements Region {
                 }
             }
         }
-        return neighborHinterlandCount + 1;
+        return neighborHinterlandCount != null ? neighborHinterlandCount + 1 : null;
     }
 
     @Override
@@ -106,12 +108,14 @@ public class SetupableRegion implements Region {
             return null;
         }
         Region neighborWithLowestHinterlandCount = null;
-        int neighborHinterlandCount = Integer.MAX_VALUE;
+        Integer neighborHinterlandCount = null;
         list.add(this);
         for (SetupableRegion neighbor : neighbors) {
-            if (!list.contains(neighbor) && list.size() > 5) {
-                int hinterlandCount = neighbor.getHinterlandCount(new ArrayList<SetupableRegion>(list));
-                if (hinterlandCount < neighborHinterlandCount) {
+            if (!list.contains(neighbor) && list.size() < 6) {
+                ArrayList<SetupableRegion> listCopy = new ArrayList<SetupableRegion>();
+                listCopy.addAll(list);
+                Integer hinterlandCount = neighbor.getHinterlandCount(listCopy);
+                if (hinterlandCount != null && (neighborHinterlandCount == null || hinterlandCount < neighborHinterlandCount)) {
                     neighborHinterlandCount = hinterlandCount;
                     neighborWithLowestHinterlandCount = neighbor;
                     if (neighborHinterlandCount == 0) {

@@ -20,7 +20,7 @@ public interface Region {
 
     boolean isHinterland();
 
-    int getHinterlandCount();
+    Integer getHinterlandCount();
 
     Region getNeighborWithLowestHinterlandCount();
 
