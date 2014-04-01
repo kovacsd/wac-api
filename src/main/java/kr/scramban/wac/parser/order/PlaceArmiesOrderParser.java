@@ -28,6 +28,9 @@ public class PlaceArmiesOrderParser implements OrderParser {
 
     private int sendInSuperBorder(final StringBuilder response, final List<Region> regions, final int fullReinforcement) {
         int portionOfReinforcement = fullReinforcement / regions.size() / 2;
+        if (portionOfReinforcement == 0 && fullReinforcement > regions.size()) {
+            portionOfReinforcement = 1;
+        }
         int restOfReinforcement = fullReinforcement;
         if (portionOfReinforcement > 0) {
             for (Region region : regions) {

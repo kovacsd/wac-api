@@ -150,7 +150,11 @@ public class SetupableRegion implements Region {
         List<Region> enemyNeighbor = new ArrayList<Region>();
         for (Region neighbor : neighbors) {
             if (!neighbor.getOwner().isMe()) {
-                enemyNeighbor.add(neighbor);
+                if (getSuperRegion() == neighbor.getSuperRegion()) {
+                    enemyNeighbor.add(0, neighbor);
+                } else {
+                    enemyNeighbor.add(neighbor);
+                }
             }
         }
         return enemyNeighbor;
