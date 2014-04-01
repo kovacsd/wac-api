@@ -4,97 +4,65 @@ import java.util.List;
 
 import kr.scramban.wac.domain.GameContext;
 import kr.scramban.wac.domain.map.Region;
+import kr.scramban.wac.parser.OutputOrder;
 
 public class AttackTransferOrderParser implements OrderParser {
 
+    private final GameContext context;
+
+    public AttackTransferOrderParser(final GameContext context) {
+        this.context = context;
+    }
+
     @Override
-    public String parse(final GameContext context, final String[][] args) {
+    public String parse(final String[][] args) {
         StringBuilder response = new StringBuilder();
-        response.append(createMoves(context));
-        response.append(createAttacks(context));
+        createMoves(response);
+        createAttacks(response);
         return response.length() > 0 ? response.toString() : "No moves";
     }
 
-    private String createMoves(final GameContext context) {
-        StringBuilder response = new StringBuilder();
+    private void createMoves(final StringBuilder response) {
         List<Region> regions = context.getWorld().getMyHinterlandRegions();
-        String myName = context.getPlayerList().getMyName();
         for (Region region : regions) {
             if (region.getArmy() > 1) {
-                long army = region.getArmy() - 1;
-                for (Region neighbor : region.getNeighbor()) {
-                    if (!neighbor.isHinterland()) {
-                        region.addArmy(-army);
-                        neighbor.addArmy(army);
-                        if (response.length() > 0) {
-                            response.append(",");
-                        }
-                        response.append(myName);
-                        response.append(" attack/transfer ");
-                        response.append(region.getId());
-                        response.append(" ");
-                        response.append(neighbor.getId());
-                        response.append(" ");
-                        response.append(army);
-                        break;
-                    }
-                }
-                if (region.getArmy() > 1) {
-                    for (Region neighbor : region.getNeighbor()) {
-                        boolean longWay = false;
-                        for (Region neighborOfNeighbor : neighbor.getNeighbor()) {
-                            if (!neighborOfNeighbor.isHinterland()) {
-                                longWay = true;
-                            }
-                        }
-                        if (longWay) {
-                            region.addArmy(-army);
-                            neighbor.addArmy(army);
-                            if (response.length() > 0) {
-                                response.append(",");
-                            }
-                            response.append(myName);
-                            response.append(" attack/transfer ");
-                            response.append(region.getId());
-                            response.append(" ");
-                            response.append(neighbor.getId());
-                            response.append(" ");
-                            response.append(army);
-                        }
-                    }
+                int army = region.getArmy() - 1;
+                Region neighbor = region.getNeighborWithLowestHinterlandCount();
+                if (neighbor != null) {
+                    generateResponse(response, region, neighbor, army);
                 }
             }
         }
-        return response.toString();
     }
 
-    private String createAttacks(final GameContext context) {
-        StringBuilder response = new StringBuilder();
+    private void createAttacks(final StringBuilder response) {
         List<Region> regions = context.getWorld().getMyBorderRegions();
-        String myName = context.getPlayerList().getMyName();
         for (Region region : regions) {
             if (region.getArmy() > 1) {
-                for (Region neighbor : region.getNeighbor()) {
-                    long army = (long) (neighbor.getArmy() * 1.3 + 1);
-                    if (!neighbor.getOwner().isMe() && army < region.getArmy() - 1) {
-                        if (army * 1.1 + 1 < region.getArmy() - 1) {
-                            army = (long) (army * 1.1 + 1);
+                List<Region> enemyNeighbors = region.getEnemyNeighbors();
+                for (Region enemyNeighbor : enemyNeighbors) {
+                    int neededArmy = (int) (enemyNeighbor.getArmy() * 1.3 + 2);
+                    if (neededArmy < region.getArmy()) {
+                        int army;
+                        if (enemyNeighbors.size() == 1) {
+                            army = region.getArmy() - 1;
+                        } else if (neededArmy * 1.5 < region.getArmy()) {
+                            army = (int) (neededArmy * 1.3);
+                        } else {
+                            army = neededArmy;
                         }
                         region.addArmy(-army);
-                        if (response.length() > 0) {
-                            response.append(",");
-                        }
-                        response.append(myName);
-                        response.append(" attack/transfer ");
-                        response.append(region.getId());
-                        response.append(" ");
-                        response.append(neighbor.getId());
-                        response.append(" ");
-                        response.append(army);
+                        generateResponse(response, region, enemyNeighbor, army);
                     }
                 }
             }
         }
-        return response.toString();
+    }
+
+    private void generateResponse(final StringBuilder response, final Region region, final Region neighbor, final int army) {
+        if (response.length() > 0) {
+            response.append(",");
+        }
+        response.append(OutputOrder.ATTACK_TRANSFER.printOrder(context.getPlayerList().getMyName(), region.getId(), neighbor.getId(), army));
     }
 }

@@ -31,7 +31,7 @@ public class World {
         }
     }
 
-    public void setRegion(final int regionId, final Player owner, final long army) {
+    public void setRegion(final int regionId, final Player owner, final int army) {
         SetupableRegion region = regions.get(regionId);
         region.setOwner(owner);
         region.setArmy(army);
@@ -40,7 +40,7 @@ public class World {
     public List<Region> getMyRegions() {
         List<Region> myRegions = new ArrayList<Region>();
         for (Region region : regions.values()) {
-            if (region.getOwner() != null && region.getOwner().isMe()) {
+            if (region.isMy()) {
                 myRegions.add(region);
             }
         }
@@ -50,7 +50,7 @@ public class World {
     public List<Region> getMyBorderRegions() {
         List<Region> myRegions = new ArrayList<Region>();
         for (Region region : regions.values()) {
-            if (region.getOwner() != null && region.getOwner().isMe() && !region.isHinterland()) {
+            if (region.isMy() && !region.isHinterland()) {
                 myRegions.add(region);
             }
         }
@@ -60,7 +60,7 @@ public class World {
     public List<Region> getMyHinterlandRegions() {
         List<Region> myRegions = new ArrayList<Region>();
         for (Region region : regions.values()) {
-            if (region.getOwner() != null && region.getOwner().isMe() && region.isHinterland()) {
+            if (region.isMy() && region.isHinterland()) {
                 myRegions.add(region);
             }
         }

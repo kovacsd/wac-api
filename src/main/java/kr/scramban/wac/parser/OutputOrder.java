@@ -10,4 +10,18 @@ public enum OutputOrder {
     private OutputOrder(final String... orderKeys) {
         this.orderKeys = orderKeys;
     }
+
+    public String printOrder(final String player, final int... args) {
+        StringBuilder response = new StringBuilder();
+        response.append(player);
+        for (String orderKey : orderKeys) {
+            response.append(" ");
+            response.append(orderKey);
+        }
+        for (int arg : args) {
+            response.append(" ");
+            response.append(arg);
+        }
+        return response.toString();
+    }
 }

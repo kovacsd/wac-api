@@ -24,16 +24,16 @@ public class ConsolParser {
     private final Map<InputOrder, OrderParser> parsers = new HashMap<InputOrder, OrderParser>();
 
     {
-        parsers.put(InputOrder.SETTINGS_OPPONENT_BOT, new OpponentBotOrderParser());
-        parsers.put(InputOrder.SETTINGS_YOUR_BOT, new YourBotOrderParser());
-        parsers.put(InputOrder.SETUP_MAP_SUPER_REGIONS, new SuperRegionOrderParser());
-        parsers.put(InputOrder.SETUP_MAP_REGIONS, new RegionOrderParser());
-        parsers.put(InputOrder.SETUP_MAP_NEIGHBORS, new NeighborsOrderParser());
+        parsers.put(InputOrder.SETTINGS_OPPONENT_BOT, new OpponentBotOrderParser(gameContext));
+        parsers.put(InputOrder.SETTINGS_YOUR_BOT, new YourBotOrderParser(gameContext));
+        parsers.put(InputOrder.SETUP_MAP_SUPER_REGIONS, new SuperRegionOrderParser(gameContext));
+        parsers.put(InputOrder.SETUP_MAP_REGIONS, new RegionOrderParser(gameContext));
+        parsers.put(InputOrder.SETUP_MAP_NEIGHBORS, new NeighborsOrderParser(gameContext));
         parsers.put(InputOrder.PICK_STARTING_REGIONS, new StartingRegionsOrderParser());
-        parsers.put(InputOrder.SETTINGS_STARTING_ARMIES, new StartingArmiesOrderParser());
-        parsers.put(InputOrder.UPDATE_MAP, new UpdateMapOrderParser());
-        parsers.put(InputOrder.GO_PLACE_ARMIES, new PlaceArmiesOrderParser());
-        parsers.put(InputOrder.GO_ATTACK_TRANSFER, new AttackTransferOrderParser());
+        parsers.put(InputOrder.SETTINGS_STARTING_ARMIES, new StartingArmiesOrderParser(gameContext));
+        parsers.put(InputOrder.UPDATE_MAP, new UpdateMapOrderParser(gameContext));
+        parsers.put(InputOrder.GO_PLACE_ARMIES, new PlaceArmiesOrderParser(gameContext));
+        parsers.put(InputOrder.GO_ATTACK_TRANSFER, new AttackTransferOrderParser(gameContext));
         parsers.put(InputOrder.OPPONENT_MOVES, new DummyOrderParser());
     }
 
@@ -44,6 +44,6 @@ public class ConsolParser {
         if (parser == null) {
             throw new IllegalArgumentException("No parser for : " + inputOrder);
         }
-        return parser.parse(gameContext, inputOrder.paramParser(parts));
+        return parser.parse(inputOrder.paramParser(parts));
     }
 }
