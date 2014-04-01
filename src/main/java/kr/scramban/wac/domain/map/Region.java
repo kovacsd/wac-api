@@ -8,6 +8,8 @@ public interface Region {
 
     int getId();
 
+    SuperRegion getSuperRegion();
+
     List<? extends Region> getNeighbors();
 
     Player getOwner();
@@ -27,4 +29,6 @@ public interface Region {
     int getCountOfEnemyNeighbor();
 
     List<Region> getEnemyNeighbors();
+
+    boolean isSuperBorder();
 }

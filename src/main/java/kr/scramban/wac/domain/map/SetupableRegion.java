@@ -8,12 +8,14 @@ import kr.scramban.wac.domain.player.Player;
 public class SetupableRegion implements Region {
 
     private final int id;
+    private final SuperRegion superRegion;
     private final List<SetupableRegion> neighbors = new ArrayList<SetupableRegion>();
     private Player owner;
     private int army;
 
-    public SetupableRegion(final int id) {
+    public SetupableRegion(final int id, final SuperRegion superRegion) {
         this.id = id;
+        this.superRegion = superRegion;
     }
 
     public void addNeighbor(final SetupableRegion neighbor) {
@@ -36,6 +38,11 @@ public class SetupableRegion implements Region {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public SuperRegion getSuperRegion() {
+        return superRegion;
     }
 
     @Override
@@ -147,5 +154,15 @@ public class SetupableRegion implements Region {
             }
         }
         return enemyNeighbor;
+    }
+
+    @Override
+    public boolean isSuperBorder() {
+        for (Region neighbor : neighbors) {
+            if (getSuperRegion() != neighbor.getSuperRegion()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

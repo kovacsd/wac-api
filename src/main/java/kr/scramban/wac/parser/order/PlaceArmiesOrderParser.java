@@ -19,10 +19,25 @@ public class PlaceArmiesOrderParser implements OrderParser {
         StringBuilder response = new StringBuilder();
         int fullReinforcement = context.getArmyCount().getReinforcement();
         List<Region> regions = context.getWorld().getMyBorderRegions();
-        int restOfReinforcement = sendInBalance(response, regions, fullReinforcement);
+        int restOfReinforcement = sendInSuperBorder(response, regions, fullReinforcement);
+        restOfReinforcement = sendInBalance(response, regions, restOfReinforcement);
         restOfReinforcement = sendInBalance(response, regions, restOfReinforcement);
         sendAll(response, regions, restOfReinforcement);
         return response.toString();
+    }
+
+    private int sendInSuperBorder(final StringBuilder response, final List<Region> regions, final int fullReinforcement) {
+        int portionOfReinforcement = fullReinforcement / regions.size() / 2;
+        int restOfReinforcement = fullReinforcement;
+        if (portionOfReinforcement > 0) {
+            for (Region region : regions) {
+                if (region.isSuperBorder()) {
+                    generateResponse(response, region, portionOfReinforcement);
+                    restOfReinforcement -= portionOfReinforcement;
+                }
+            }
+        }
+        return restOfReinforcement;
     }
 
     private int sendInBalance(final StringBuilder response, final List<Region> regions, final int fullReinforcement) {
@@ -31,7 +46,7 @@ public class PlaceArmiesOrderParser implements OrderParser {
         if (portionOfReinforcement > 0) {
             int averageArmyOnBorder = calculateAverageArmy(regions);
             for (Region region : regions) {
-                if (region.getArmy() < averageArmyOnBorder * 1.3) {
+                if (region.getArmy() < averageArmyOnBorder * 1.5) {
                     region.addArmy(portionOfReinforcement);
                     generateResponse(response, region, portionOfReinforcement);
                 } else {

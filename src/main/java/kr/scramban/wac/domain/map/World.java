@@ -17,8 +17,9 @@ public class World {
     }
 
     public void addRegion(final int regionId, final int superRegionId) {
-        SetupableRegion region = new SetupableRegion(regionId);
-        superRegions.get(superRegionId).addRegion(region);
+        SetupableSuperRegion superRegion = superRegions.get(superRegionId);
+        SetupableRegion region = new SetupableRegion(regionId, superRegion);
+        superRegion.addRegion(region);
         regions.put(regionId, region);
     }
 
