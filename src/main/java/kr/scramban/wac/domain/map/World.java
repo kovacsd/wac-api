@@ -67,4 +67,11 @@ public class World {
         }
         return myRegions;
     }
+
+    public void invalidateMap() {
+        for (SetupableRegion region : regions.values()) {
+            region.setOwner(null);
+            region.setArmy(0);
+        }
+    }
 }

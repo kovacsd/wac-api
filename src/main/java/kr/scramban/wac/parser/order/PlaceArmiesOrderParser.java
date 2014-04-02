@@ -23,7 +23,7 @@ public class PlaceArmiesOrderParser implements OrderParser {
     }
 
     private void divideReinforcement(final int fullReinforcement, final List<Region> myBorderRegions) {
-        int restOfReinforcement = sendOffensiveArmy(myBorderRegions, fullReinforcement);
+        int restOfReinforcement = sendOffensiveArmy(myBorderRegions, fullReinforcement + 0);
         setPriorityBySuperBorder(myBorderRegions);
         setPriorityByBalance(myBorderRegions);
         setPriorityByThreat(myBorderRegions);

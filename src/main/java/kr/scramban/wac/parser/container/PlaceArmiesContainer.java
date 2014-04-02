@@ -46,7 +46,7 @@ public class PlaceArmiesContainer {
             int reinforcementPart = reinforcement * entry.getValue() / sumOfPriority;
             if (reinforcementPart > 0) {
                 addReinforcement(entry.getKey(), reinforcementPart);
-                actualReinforcement -= reinforcement;
+                actualReinforcement -= reinforcementPart;
             }
         }
         divideAll(priorityMap.keySet(), actualReinforcement);
