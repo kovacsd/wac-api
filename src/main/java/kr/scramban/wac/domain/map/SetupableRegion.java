@@ -135,6 +135,17 @@ public class SetupableRegion implements Region {
     }
 
     @Override
+    public int getEnemyArmy() {
+        int enemyArmy = 0;
+        for (Region neighbor : neighbors) {
+            if (!neighbor.getOwner().isMe()) {
+                enemyArmy += neighbor.getArmy();
+            }
+        }
+        return enemyArmy;
+    }
+
+    @Override
     public int getCountOfEnemyNeighbor() {
         int countOfEnemyNeighbor = 0;
         for (Region neighbor : neighbors) {

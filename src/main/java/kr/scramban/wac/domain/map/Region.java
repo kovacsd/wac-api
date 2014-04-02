@@ -16,6 +16,8 @@ public interface Region {
 
     int getArmy();
 
+    int getEnemyArmy();
+
     void addArmy(long reinforcement);
 
     boolean isMy();
