@@ -28,9 +28,7 @@ public interface Region {
 
     Region getNeighborWithLowestHinterlandCount();
 
-    int getCountOfEnemyNeighbor();
-
-    List<Region> getEnemyNeighbors();
+    List<Region> getElseNeighbors();
 
     boolean isSuperBorder();
 }

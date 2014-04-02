@@ -22,7 +22,7 @@ public class PlayerList {
     }
 
     private void addPlayer(final String name, final boolean isMe) {
-        players.put(name, new Player(name, isMe));
+        players.put(name, new Player(name, isMe ? PlayerType.ME : PlayerType.ENEMY));
     }
 
     public Player getPlayer(final String name) {

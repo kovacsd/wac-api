@@ -4,18 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import kr.scramban.wac.domain.GameContext;
-import kr.scramban.wac.parser.order.AttackTransferOrderParser;
 import kr.scramban.wac.parser.order.DummyOrderParser;
-import kr.scramban.wac.parser.order.NeighborsOrderParser;
-import kr.scramban.wac.parser.order.OpponentBotOrderParser;
 import kr.scramban.wac.parser.order.OrderParser;
-import kr.scramban.wac.parser.order.PlaceArmiesOrderParser;
-import kr.scramban.wac.parser.order.RegionOrderParser;
-import kr.scramban.wac.parser.order.StartingArmiesOrderParser;
-import kr.scramban.wac.parser.order.StartingRegionsOrderParser;
-import kr.scramban.wac.parser.order.SuperRegionOrderParser;
-import kr.scramban.wac.parser.order.UpdateMapOrderParser;
-import kr.scramban.wac.parser.order.YourBotOrderParser;
+import kr.scramban.wac.parser.order.move.AttackTransferOrderParser;
+import kr.scramban.wac.parser.order.move.PlaceArmiesOrderParser;
+import kr.scramban.wac.parser.order.setup.NeighborsOrderParser;
+import kr.scramban.wac.parser.order.setup.OpponentBotOrderParser;
+import kr.scramban.wac.parser.order.setup.RegionOrderParser;
+import kr.scramban.wac.parser.order.setup.SuperRegionOrderParser;
+import kr.scramban.wac.parser.order.setup.YourBotOrderParser;
+import kr.scramban.wac.parser.order.update.StartingArmiesOrderParser;
+import kr.scramban.wac.parser.order.update.StartingRegionsOrderParser;
+import kr.scramban.wac.parser.order.update.UpdateMapOrderParser;
 
 public class ConsolParser {
 

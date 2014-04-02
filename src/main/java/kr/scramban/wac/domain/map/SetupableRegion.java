@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.scramban.wac.domain.player.Player;
+import kr.scramban.wac.domain.player.PlayerType;
 
 public class SetupableRegion implements Region {
 
@@ -62,7 +63,7 @@ public class SetupableRegion implements Region {
 
     @Override
     public boolean isMy() {
-        return owner != null && owner.isMe();
+        return owner != null && owner.getType().isMe();
     }
 
     @Override
@@ -138,7 +139,7 @@ public class SetupableRegion implements Region {
     public int getEnemyArmy() {
         int enemyArmy = 0;
         for (Region neighbor : neighbors) {
-            if (!neighbor.getOwner().isMe()) {
+            if (PlayerType.ENEMY == neighbor.getOwner().getType()) {
                 enemyArmy += neighbor.getArmy();
             }
         }
@@ -146,21 +147,10 @@ public class SetupableRegion implements Region {
     }
 
     @Override
-    public int getCountOfEnemyNeighbor() {
-        int countOfEnemyNeighbor = 0;
-        for (Region neighbor : neighbors) {
-            if (!neighbor.getOwner().isMe()) {
-                countOfEnemyNeighbor++;
-            }
-        }
-        return countOfEnemyNeighbor;
-    }
-
-    @Override
-    public List<Region> getEnemyNeighbors() {
+    public List<Region> getElseNeighbors() {
         List<Region> enemyNeighbor = new ArrayList<Region>();
         for (Region neighbor : neighbors) {
-            if (!neighbor.getOwner().isMe()) {
+            if (!neighbor.getOwner().getType().isMe()) {
                 if (getSuperRegion() == neighbor.getSuperRegion()) {
                     enemyNeighbor.add(0, neighbor);
                 } else {
