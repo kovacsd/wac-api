@@ -32,7 +32,7 @@ public class PlaceArmiesOrderParser implements OrderParser {
         int restOfReinforcement = fullReinforcement;
         if (averageArmyOnBorder < 5) {
             for (Region region : regions) {
-                if (region.getArmy() < 5) {
+                if (restOfReinforcement > 5 && region.getArmy() < 5) {
                     int army = 5 - region.getArmy();
                     addReinforcement(response, region, army);
                     restOfReinforcement -= army;
