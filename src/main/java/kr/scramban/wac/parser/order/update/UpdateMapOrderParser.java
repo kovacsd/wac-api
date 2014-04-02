@@ -14,7 +14,7 @@ public class UpdateMapOrderParser implements OrderParser {
 
     @Override
     public String parse(final String[][] args) {
-        context.getWorld().invalidateMap();
+        context.getWorld().resetMap();
         for (String[] mapArgs : args) {
             context.getWorld().setRegion(toInt(mapArgs[0]), context.getPlayerList().getPlayer(mapArgs[1]), toInt(mapArgs[2]));
         }

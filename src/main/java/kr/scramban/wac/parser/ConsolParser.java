@@ -6,7 +6,7 @@ import java.util.Map;
 import kr.scramban.wac.domain.GameContext;
 import kr.scramban.wac.parser.order.DummyOrderParser;
 import kr.scramban.wac.parser.order.OrderParser;
-import kr.scramban.wac.parser.order.move.AttackTransferOrderParser;
+import kr.scramban.wac.parser.order.move.AttackTransferDeffensiveOrderParser;
 import kr.scramban.wac.parser.order.move.PlaceArmiesOrderParser;
 import kr.scramban.wac.parser.order.setup.NeighborsOrderParser;
 import kr.scramban.wac.parser.order.setup.OpponentBotOrderParser;
@@ -33,7 +33,7 @@ public class ConsolParser {
         parsers.put(InputOrder.SETTINGS_STARTING_ARMIES, new StartingArmiesOrderParser(gameContext));
         parsers.put(InputOrder.UPDATE_MAP, new UpdateMapOrderParser(gameContext));
         parsers.put(InputOrder.GO_PLACE_ARMIES, new PlaceArmiesOrderParser(gameContext));
-        parsers.put(InputOrder.GO_ATTACK_TRANSFER, new AttackTransferOrderParser(gameContext));
+        parsers.put(InputOrder.GO_ATTACK_TRANSFER, new AttackTransferDeffensiveOrderParser(gameContext));
         parsers.put(InputOrder.OPPONENT_MOVES, new DummyOrderParser());
     }
 

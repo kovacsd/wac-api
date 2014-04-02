@@ -7,11 +7,11 @@ import kr.scramban.wac.domain.map.Region;
 import kr.scramban.wac.parser.OutputOrder;
 import kr.scramban.wac.parser.order.OrderParser;
 
-public class AttackTransferOrderParser implements OrderParser {
+public class AttackTransferDeffensiveOrderParser implements OrderParser {
 
     private final GameContext context;
 
-    public AttackTransferOrderParser(final GameContext context) {
+    public AttackTransferDeffensiveOrderParser(final GameContext context) {
         this.context = context;
     }
 

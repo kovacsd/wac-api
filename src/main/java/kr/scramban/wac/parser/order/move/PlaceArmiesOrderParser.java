@@ -65,8 +65,8 @@ public class PlaceArmiesOrderParser implements OrderParser {
 
     private void setPriorityByThreat(final List<Region> regions) {
         for (Region region : regions) {
-            if (region.getEnemyArmy() > 0) {
-                container.addPriority(region, region.getEnemyArmy());
+            if (region.getNeighborEnemyArmy() > 0) {
+                container.addPriority(region, region.getNeighborEnemyArmy());
             }
         }
     }

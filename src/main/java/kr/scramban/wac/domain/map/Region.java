@@ -12,13 +12,19 @@ public interface Region {
 
     List<? extends Region> getNeighbors();
 
+    List<Region> getElseNeighbors();
+
+    List<Region> getMyNeighbors();
+
     Player getOwner();
 
     int getArmy();
 
-    int getEnemyArmy();
-
     void addArmy(long reinforcement);
+
+    int getNeighborEnemyArmy();
+
+    int getNeighborMyArmy();
 
     boolean isMy();
 
@@ -27,8 +33,6 @@ public interface Region {
     Integer getHinterlandCount();
 
     Region getNeighborWithLowestHinterlandCount();
-
-    List<Region> getElseNeighbors();
 
     boolean isSuperBorder();
 }

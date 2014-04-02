@@ -58,17 +58,36 @@ public class World {
         return myRegions;
     }
 
+    public List<Region> getOutOfBorderRegions() {
+        List<Region> outOfBorderRegions = new ArrayList<Region>();
+        for (Region region : regions.values()) {
+            if (!region.isMy()) {
+                boolean myNeighbor = false;
+                for (Region neighbor : region.getNeighbors()) {
+                    if (neighbor.isMy()) {
+                        myNeighbor = true;
+                        break;
+                    }
+                }
+                if (myNeighbor) {
+                    outOfBorderRegions.add(region);
+                }
+            }
+        }
+        return outOfBorderRegions;
+    }
+
     public List<Region> getMyHinterlandRegions() {
         List<Region> myRegions = new ArrayList<Region>();
         for (Region region : regions.values()) {
-            if (region.isMy() && region.isHinterland()) {
+            if (region.isHinterland()) {
                 myRegions.add(region);
             }
         }
         return myRegions;
     }
 
-    public void invalidateMap() {
+    public void resetMap() {
         for (SetupableRegion region : regions.values()) {
             region.setOwner(null);
             region.setArmy(0);

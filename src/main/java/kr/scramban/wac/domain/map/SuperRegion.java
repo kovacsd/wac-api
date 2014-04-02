@@ -6,7 +6,15 @@ public interface SuperRegion {
 
     int getId();
 
+    boolean isMy();
+
     List<Region> getRegions();
+
+    int getRegionsCount();
+
+    int getOwnedCount();
+
+    List<Region> getNotOwnedRegions();
 
     int getBonus();
 }

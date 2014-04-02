@@ -136,21 +136,32 @@ public class SetupableRegion implements Region {
     }
 
     @Override
-    public int getEnemyArmy() {
-        int enemyArmy = 0;
+    public int getNeighborEnemyArmy() {
+        int neighborEnemyArmy = 0;
         for (Region neighbor : neighbors) {
             if (PlayerType.ENEMY == neighbor.getOwner().getType()) {
-                enemyArmy += neighbor.getArmy();
+                neighborEnemyArmy += neighbor.getArmy() - 1;
             }
         }
-        return enemyArmy;
+        return neighborEnemyArmy;
+    }
+
+    @Override
+    public int getNeighborMyArmy() {
+        int neighborMyArmy = 0;
+        for (Region neighbor : neighbors) {
+            if (neighbor.isMy()) {
+                neighborMyArmy += neighbor.getArmy() - 1;
+            }
+        }
+        return neighborMyArmy;
     }
 
     @Override
     public List<Region> getElseNeighbors() {
         List<Region> enemyNeighbor = new ArrayList<Region>();
         for (Region neighbor : neighbors) {
-            if (!neighbor.getOwner().getType().isMe()) {
+            if (!neighbor.isMy()) {
                 if (getSuperRegion() == neighbor.getSuperRegion()) {
                     enemyNeighbor.add(0, neighbor);
                 } else {
@@ -159,6 +170,17 @@ public class SetupableRegion implements Region {
             }
         }
         return enemyNeighbor;
+    }
+
+    @Override
+    public List<Region> getMyNeighbors() {
+        List<Region> myNeighbor = new ArrayList<Region>();
+        for (Region neighbor : neighbors) {
+            if (neighbor.isMy()) {
+                myNeighbor.add(neighbor);
+            }
+        }
+        return myNeighbor;
     }
 
     @Override
