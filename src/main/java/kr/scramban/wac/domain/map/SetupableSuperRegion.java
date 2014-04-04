@@ -39,6 +39,11 @@ public class SetupableSuperRegion implements SuperRegion {
     }
 
     @Override
+    public boolean contains(final Region region) {
+        return regions.contains(region);
+    }
+
+    @Override
     public int getRegionsCount() {
         return regions.size();
     }

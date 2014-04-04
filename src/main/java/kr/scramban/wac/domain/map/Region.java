@@ -24,7 +24,7 @@ public interface Region {
 
     int getNeighborEnemyArmy();
 
-    int getNeighborMyArmy();
+    int getMyNeighborArmy();
 
     boolean isMy();
 

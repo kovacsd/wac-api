@@ -147,7 +147,7 @@ public class SetupableRegion implements Region {
     }
 
     @Override
-    public int getNeighborMyArmy() {
+    public int getMyNeighborArmy() {
         int neighborMyArmy = 0;
         for (Region neighbor : neighbors) {
             if (neighbor.isMy()) {
@@ -162,11 +162,7 @@ public class SetupableRegion implements Region {
         List<Region> enemyNeighbor = new ArrayList<Region>();
         for (Region neighbor : neighbors) {
             if (!neighbor.isMy()) {
-                if (getSuperRegion() == neighbor.getSuperRegion()) {
-                    enemyNeighbor.add(0, neighbor);
-                } else {
-                    enemyNeighbor.add(neighbor);
-                }
+                enemyNeighbor.add(neighbor);
             }
         }
         return enemyNeighbor;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.scramban.wac.domain.GameContext;
 import kr.scramban.wac.domain.map.Region;
+import kr.scramban.wac.domain.map.SuperRegion;
 import kr.scramban.wac.parser.container.PlaceArmiesContainer;
 import kr.scramban.wac.parser.order.OrderParser;
 
@@ -24,7 +25,8 @@ public class PlaceArmiesOrderParser implements OrderParser {
     }
 
     private void divideReinforcement(final int fullReinforcement, final List<Region> myBorderRegions) {
-        int restOfReinforcement = sendOffensiveArmy(myBorderRegions, fullReinforcement + 0);
+        int restOfReinforcement = sendOffensiveArmy(myBorderRegions, fullReinforcement);
+        setPriorityBySuperOwn();
         setPriorityBySuperBorder(myBorderRegions);
         setPriorityByBalance(myBorderRegions);
         setPriorityByThreat(myBorderRegions);
@@ -46,10 +48,37 @@ public class PlaceArmiesOrderParser implements OrderParser {
         return restOfReinforcement;
     }
 
+    private void setPriorityBySuperOwn() {
+        SuperRegion closestSuperRegion = null;
+        for (SuperRegion superRegion : context.getWorld().getSuperRegions()) {
+            if (!superRegion.isMy()) {
+                if (closestSuperRegion == null || closestSuperRegion.getOwnedCount() < superRegion.getOwnedCount()) {
+                    closestSuperRegion = superRegion;
+                }
+            }
+        }
+        if (closestSuperRegion != null) {
+            List<Region> notOwnedRegions = closestSuperRegion.getNotOwnedRegions();
+            int notOwnedRegionCount = notOwnedRegions.size();
+            if (notOwnedRegionCount < 5) {
+                for (Region notOwnedRegion : notOwnedRegions) {
+                    for (Region myNeighbors : notOwnedRegion.getMyNeighbors()) {
+                        container.addPriority(myNeighbors, 5 - notOwnedRegionCount);
+                    }
+                }
+            }
+        }
+    }
+
     private void setPriorityBySuperBorder(final List<Region> regions) {
         for (Region region : regions) {
             if (region.isSuperBorder()) {
-                container.addPriority(region, 5);
+                if (region.getSuperRegion().isMy()) {
+                    int armyBenefit = region.getArmy() - region.getNeighborEnemyArmy();
+                    container.addPriority(region, armyBenefit < 0 ? -armyBenefit : 2);
+                } else {
+                    container.addPriority(region, 1);
+                }
             }
         }
     }

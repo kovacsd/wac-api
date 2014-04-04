@@ -1,5 +1,7 @@
 package kr.scramban.wac.parser;
 
+import kr.scramban.wac.parser.order.InputOrder;
+
 import org.junit.Assert;
 import org.junit.Test;
 

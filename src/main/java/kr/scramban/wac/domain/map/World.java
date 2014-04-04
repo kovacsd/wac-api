@@ -1,6 +1,7 @@
 package kr.scramban.wac.domain.map;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,14 @@ public class World {
         SetupableRegion region = regions.get(regionId);
         region.setOwner(owner);
         region.setArmy(army);
+    }
+
+    public Collection<? extends SuperRegion> getSuperRegions() {
+        return superRegions.values();
+    }
+
+    public Region getRegion(final int regionId) {
+        return regions.get(regionId);
     }
 
     public List<Region> getMyRegions() {

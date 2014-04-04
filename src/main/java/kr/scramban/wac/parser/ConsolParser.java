@@ -5,8 +5,9 @@ import java.util.Map;
 
 import kr.scramban.wac.domain.GameContext;
 import kr.scramban.wac.parser.order.DummyOrderParser;
+import kr.scramban.wac.parser.order.InputOrder;
 import kr.scramban.wac.parser.order.OrderParser;
-import kr.scramban.wac.parser.order.move.AttackTransferDeffensiveOrderParser;
+import kr.scramban.wac.parser.order.move.AttackTransferOffensiveOrderParser;
 import kr.scramban.wac.parser.order.move.PlaceArmiesOrderParser;
 import kr.scramban.wac.parser.order.setup.NeighborsOrderParser;
 import kr.scramban.wac.parser.order.setup.OpponentBotOrderParser;
@@ -29,11 +30,11 @@ public class ConsolParser {
         parsers.put(InputOrder.SETUP_MAP_SUPER_REGIONS, new SuperRegionOrderParser(gameContext));
         parsers.put(InputOrder.SETUP_MAP_REGIONS, new RegionOrderParser(gameContext));
         parsers.put(InputOrder.SETUP_MAP_NEIGHBORS, new NeighborsOrderParser(gameContext));
-        parsers.put(InputOrder.PICK_STARTING_REGIONS, new StartingRegionsOrderParser());
+        parsers.put(InputOrder.PICK_STARTING_REGIONS, new StartingRegionsOrderParser(gameContext));
         parsers.put(InputOrder.SETTINGS_STARTING_ARMIES, new StartingArmiesOrderParser(gameContext));
         parsers.put(InputOrder.UPDATE_MAP, new UpdateMapOrderParser(gameContext));
         parsers.put(InputOrder.GO_PLACE_ARMIES, new PlaceArmiesOrderParser(gameContext));
-        parsers.put(InputOrder.GO_ATTACK_TRANSFER, new AttackTransferDeffensiveOrderParser(gameContext));
+        parsers.put(InputOrder.GO_ATTACK_TRANSFER, new AttackTransferOffensiveOrderParser(gameContext));
         parsers.put(InputOrder.OPPONENT_MOVES, new DummyOrderParser());
     }
 

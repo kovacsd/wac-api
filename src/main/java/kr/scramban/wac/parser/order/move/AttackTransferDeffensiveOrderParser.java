@@ -4,8 +4,8 @@ import java.util.List;
 
 import kr.scramban.wac.domain.GameContext;
 import kr.scramban.wac.domain.map.Region;
-import kr.scramban.wac.parser.OutputOrder;
 import kr.scramban.wac.parser.order.OrderParser;
+import kr.scramban.wac.parser.order.OutputOrder;
 
 public class AttackTransferDeffensiveOrderParser implements OrderParser {
 

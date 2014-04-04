@@ -1,4 +1,4 @@
-package kr.scramban.wac.parser;
+package kr.scramban.wac.parser.order;
 
 public enum OutputOrder {
 

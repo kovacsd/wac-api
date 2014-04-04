@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import kr.scramban.wac.domain.map.Region;
-import kr.scramban.wac.parser.OutputOrder;
+import kr.scramban.wac.parser.order.OutputOrder;
 
 public class PlaceArmiesContainer {
 
@@ -42,11 +42,13 @@ public class PlaceArmiesContainer {
             sumOfPriority += priority;
         }
         int actualReinforcement = reinforcement;
-        for (Entry<Region, Integer> entry : priorityMap.entrySet()) {
-            int reinforcementPart = reinforcement * entry.getValue() / sumOfPriority;
-            if (reinforcementPart > 0) {
-                addReinforcement(entry.getKey(), reinforcementPart);
-                actualReinforcement -= reinforcementPart;
+        if (sumOfPriority > 0) {
+            for (Entry<Region, Integer> entry : priorityMap.entrySet()) {
+                int reinforcementPart = reinforcement * entry.getValue() / sumOfPriority;
+                if (reinforcementPart > 0) {
+                    addReinforcement(entry.getKey(), reinforcementPart);
+                    actualReinforcement -= reinforcementPart;
+                }
             }
         }
         divideAll(priorityMap.keySet(), actualReinforcement);
