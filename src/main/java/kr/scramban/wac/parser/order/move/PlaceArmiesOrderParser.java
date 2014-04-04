@@ -34,9 +34,9 @@ public class PlaceArmiesOrderParser implements OrderParser {
     }
 
     private int sendOffensiveArmy(final List<Region> regions, final int fullReinforcement) {
-        int averageArmyOnBorder = calculateAverageArmy(regions);
+        int minArmyOnBorder = calculateMinArmy(regions);
         int restOfReinforcement = fullReinforcement;
-        if (averageArmyOnBorder < 5) {
+        if (minArmyOnBorder <= 5) {
             for (Region region : regions) {
                 if (restOfReinforcement > regions.size() && region.getArmy() < 5) {
                     int army = 5 - region.getArmy();
@@ -106,5 +106,15 @@ public class PlaceArmiesOrderParser implements OrderParser {
             sumArmy += region.getArmy();
         }
         return sumArmy / regions.size();
+    }
+
+    private int calculateMinArmy(final List<Region> regions) {
+        int minArmy = -1;
+        for (Region region : regions) {
+            if (minArmy == -1 || region.getArmy() < minArmy) {
+                minArmy = region.getArmy();
+            }
+        }
+        return minArmy;
     }
 }
