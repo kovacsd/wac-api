@@ -1,5 +1,7 @@
 package kr.scramban.wac.parser.order;
 
+import kr.scramban.wac.parser.container.AttackTransferContainer.AttackTransferEvent;
+
 public enum OutputOrder {
 
     PLACE_ARMIES("place_armies"),
@@ -23,5 +25,9 @@ public enum OutputOrder {
             response.append(arg);
         }
         return response.toString();
+    }
+
+    public Object printOrder(final String name, final AttackTransferEvent event) {
+        return printOrder(name, event.getSource().getId(), event.getTarget().getId(), event.getArmy());
     }
 }
