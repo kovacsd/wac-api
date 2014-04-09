@@ -96,6 +96,18 @@ public class World {
         return myRegions;
     }
 
+    public SuperRegion getClosestSuperRegion() {
+        SuperRegion closestSuperRegion = null;
+        for (SuperRegion superRegion : superRegions.values()) {
+            if (!superRegion.isMy()) {
+                if (closestSuperRegion == null || closestSuperRegion.getOwnedCount() < superRegion.getOwnedCount()) {
+                    closestSuperRegion = superRegion;
+                }
+            }
+        }
+        return closestSuperRegion;
+    }
+
     public void resetMap() {
         for (SetupableRegion region : regions.values()) {
             region.setOwner(null);

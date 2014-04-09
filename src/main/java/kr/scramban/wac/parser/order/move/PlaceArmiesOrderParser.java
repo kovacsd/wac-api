@@ -26,7 +26,7 @@ public class PlaceArmiesOrderParser implements OrderParser {
 
     private void divideReinforcement(final int fullReinforcement, final List<Region> myBorderRegions) {
         int restOfReinforcement = sendOffensiveArmy(myBorderRegions, fullReinforcement);
-        setPriorityBySuperOwn();
+        restOfReinforcement = setBySuperOwn(restOfReinforcement);
         setPriorityBySuperBorder(myBorderRegions);
         setPriorityByBalance(myBorderRegions);
         setPriorityByThreat(myBorderRegions);
@@ -48,19 +48,17 @@ public class PlaceArmiesOrderParser implements OrderParser {
         return restOfReinforcement;
     }
 
-    private void setPriorityBySuperOwn() {
-        SuperRegion closestSuperRegion = null;
-        for (SuperRegion superRegion : context.getWorld().getSuperRegions()) {
-            if (!superRegion.isMy()) {
-                if (closestSuperRegion == null || closestSuperRegion.getOwnedCount() < superRegion.getOwnedCount()) {
-                    closestSuperRegion = superRegion;
-                }
-            }
-        }
+    private int setBySuperOwn(final int reinforcement) {
+        int restOfReinforcement = reinforcement;
+        SuperRegion closestSuperRegion = context.getWorld().getClosestSuperRegion();
         if (closestSuperRegion != null) {
             List<Region> notOwnedRegions = closestSuperRegion.getNotOwnedRegions();
             int notOwnedRegionCount = notOwnedRegions.size();
-            if (notOwnedRegionCount < 5) {
+            if (notOwnedRegionCount == 1) {
+                int army = reinforcement / 10 + 1;
+                container.addReinforcement(notOwnedRegions.get(0).getMyNeighbors().get(0), army);
+                restOfReinforcement -= army;
+            } else if (notOwnedRegionCount < 5) {
                 for (Region notOwnedRegion : notOwnedRegions) {
                     for (Region myNeighbors : notOwnedRegion.getMyNeighbors()) {
                         container.addPriority(myNeighbors, 5 - notOwnedRegionCount);
@@ -68,6 +66,7 @@ public class PlaceArmiesOrderParser implements OrderParser {
                 }
             }
         }
+        return restOfReinforcement;
     }
 
     private void setPriorityBySuperBorder(final List<Region> regions) {
