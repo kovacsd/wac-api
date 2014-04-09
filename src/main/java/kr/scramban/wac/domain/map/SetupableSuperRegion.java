@@ -39,6 +39,24 @@ public class SetupableSuperRegion implements SuperRegion {
     }
 
     @Override
+    public List<Region> getBorderRegions() {
+        List<Region> borderRegions = new ArrayList<Region>();
+        for (Region region : regions) {
+            boolean border = false;
+            for (Region neighbor : region.getNeighbors()) {
+                if (neighbor.getSuperRegion() != this) {
+                    border = true;
+                    break;
+                }
+            }
+            if (border) {
+                borderRegions.add(region);
+            }
+        }
+        return borderRegions;
+    }
+
+    @Override
     public boolean contains(final Region region) {
         return regions.contains(region);
     }

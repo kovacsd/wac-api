@@ -5,6 +5,7 @@ import java.util.List;
 import kr.scramban.wac.domain.GameContext;
 import kr.scramban.wac.domain.map.Region;
 import kr.scramban.wac.domain.map.SuperRegion;
+import kr.scramban.wac.domain.player.PlayerType;
 import kr.scramban.wac.parser.container.PlaceArmiesContainer;
 import kr.scramban.wac.parser.order.OrderParser;
 
@@ -55,9 +56,13 @@ public class PlaceArmiesOrderParser implements OrderParser {
             List<Region> notOwnedRegions = closestSuperRegion.getNotOwnedRegions();
             int notOwnedRegionCount = notOwnedRegions.size();
             if (notOwnedRegionCount == 1) {
-                int army = reinforcement / 10 + 1;
-                container.addReinforcement(notOwnedRegions.get(0).getMyNeighbors().get(0), army);
+                Region notOwned = notOwnedRegions.get(0);
+                Region attackSource = notOwned.getMyNeighbors().get(0);
+                boolean enemyOwned = notOwned.getOwner().getType() == PlayerType.ENEMY;
+                int army = enemyOwned ? reinforcement / 2 : reinforcement / 10 + 1;
+                container.addReinforcement(attackSource, army);
                 restOfReinforcement -= army;
+                container.addPriority(attackSource, enemyOwned ? 6 : 4);
             } else if (notOwnedRegionCount < 5) {
                 for (Region notOwnedRegion : notOwnedRegions) {
                     for (Region myNeighbors : notOwnedRegion.getMyNeighbors()) {
@@ -73,8 +78,12 @@ public class PlaceArmiesOrderParser implements OrderParser {
         for (Region region : regions) {
             if (region.isSuperBorder()) {
                 if (region.getSuperRegion().isMy()) {
-                    int armyBenefit = region.getArmy() - region.getNeighborEnemyArmy();
-                    container.addPriority(region, armyBenefit < 0 ? -armyBenefit : 2);
+                    float armyAdvantage = (float) region.getArmy() / region.getNeighborEnemyArmy();
+                    if (armyAdvantage < 1) {
+                        container.addPriority(region, armyAdvantage < 0.8 ? 6 : 4);
+                    } else {
+                        container.addPriority(region, 1);
+                    }
                 } else {
                     container.addPriority(region, 1);
                 }

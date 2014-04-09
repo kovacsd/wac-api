@@ -16,7 +16,13 @@ public class StartingRegionsOrderParser implements OrderParser {
 
         @Override
         public int compare(final SuperRegion superRegion1, final SuperRegion superRegion2) {
-            return superRegion1.getRegionsCount() - superRegion2.getRegionsCount();
+            boolean oneBorderRegionCount1 = superRegion1.getBorderRegions().size() == 1;
+            boolean oneBorderRegionCount2 = superRegion2.getBorderRegions().size() == 1;
+            if (oneBorderRegionCount1 ^ oneBorderRegionCount2) {
+                return oneBorderRegionCount1 ? 1 : -1;
+            } else {
+                return superRegion1.getRegionsCount() - superRegion2.getRegionsCount();
+            }
         }
     };
 

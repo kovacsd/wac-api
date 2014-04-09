@@ -83,6 +83,9 @@ public class AttackTransferOffensiveOrderParser implements OrderParser {
     private void createAttacks() {
         for (Region targetRegion : getTargetPossitionsByPriority()) {
             int neededArmy = (int) (targetRegion.getArmy() * 1.5 + 1);
+            if (targetRegion.getArmy() > 1 && targetRegion.getOwner().getType() == PlayerType.ENEMY) {
+                neededArmy += 3;
+            }
             if (targetRegion.getMyNeighborArmy() > neededArmy) {
                 List<AttackTransferEvent> events = new ArrayList<AttackTransferEvent>();
                 int usedArmy = 0;

@@ -10,6 +10,8 @@ public interface SuperRegion {
 
     List<Region> getRegions();
 
+    List<Region> getBorderRegions();
+
     boolean contains(Region region);
 
     int getRegionsCount();
